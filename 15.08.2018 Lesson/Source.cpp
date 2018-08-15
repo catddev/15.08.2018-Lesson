@@ -2,7 +2,10 @@
 #include <iostream>
 #include <iomanip>
 #include<math.h>
+#include <cstdlib>
 #include<ctime>
+
+using namespace std;
 
 //20.	*Напишите функцию, которая определяет количество элементов передаваемого массива,
 //которые больше определенного числа, это число тоже передается в функцию.
@@ -112,8 +115,20 @@ void AddLeftDigit(int D, int &K) {
 //Proc10.Описать процедуру Swap(X, Y), меняющую содержимое переменных X и Y(X и Y — вещественные параметры, являющиеся одновременно входными и выходными).
 //	С ее помощью для данных переменных A, B, C, D последовательно поменять содержимое следующих пар :
 //	A и B, C и D, B и C и вывести новые значения A, B, C, D.
-void Swap(double &x, double &y) {
+void swap(int &x, int &y) {
+	int tmp = 0;
+	tmp = x;
+	x = y;
+	y = tmp;
+}
+void swap(double &x, double &y) {
 	double tmp = 0;
+	tmp = x;
+	x = y;
+	y = tmp;
+}
+void swap(char &x, char &y) {
+	char tmp = 0;
 	tmp = x;
 	x = y;
 	y = tmp;
@@ -134,10 +149,74 @@ bool IsPower5(int K) {
 		else false;*/
 	}
 }
+//24.	**Написать функцию, которая меняет порядок элементов передаваемого массива на обратный.
+//Внутри функции запрещено использовать вспомогательный массив.
+//Реализовать перегрузки для различных типов массивов.
 
+void reverse(int a[], int size)
+{
+	for (int i = 0; i < size / 2; i++)
+		swap(a[i], a[size - i - 1]);
+}
+void reverse(double a[], int size)
+{
+	for (int i = 0; i < size / 2; i++)
+		swap(a[i], a[size - i - 1]);
+}
+void reverse(char a[], int size)
+{
+	for (int i = 0; i < size / 2; i++)
+		swap(a[i], a[size - i - 1]);
+}
+//25.	**Написать функцию, которая принимает три числа и показывает на экран все числа от 0 до 1000,
+//которые одновременно кратны всем трем параметрам.Проиллюстрировать работу этой функции.
+void delitel(int x, int y, int z)
+{
+	for (int i = 1; i <= 1000; i++)
+	{
+		if (i%x == 0 && i%y == 0 && i%z == 0)
+			cout << i << endl;
+	}
+}
+//26.	Напишите функцию, которая принимает выражение в виде строки и проверяет, правильно ли расставлены в нем скобки.
+//А) *Скобки могут быть только круглые «(» «)».
+//Б) **Скобки могут быть круглые «(» «)» и квадратные «[» и «]»
 
+bool skobki(char str[]){
+	
+	int c = 0;
+	for (int i = 0; i < strlen(str); i++)
+	{
+		if (c < 0) return false;
+		if (str[i] == '(')
+			c++;
+		if (str[i] == ')')
+			c--;
+	}
+	if (c!=0) return false;
+	return true;
+}
+bool skobki2(char str[]) {
 
-using namespace std;
+	int c = 0;
+	int k = 0;
+	for (int i = 0; i < strlen(str); i++)
+	{
+		if (c < 0) return false;
+		if (str[i] == '(')
+			c++;
+		if (str[i] == ')')
+			c--;
+		if (k < 0) return false;
+		if (str[i] == '[')
+			k++;
+		if (str[i] == ']')
+			k--;
+	}
+	if (c != 0 || k!=0) return false;
+	return true;
+}
+
 
 int main()
 {
@@ -264,10 +343,10 @@ int main()
 		break;
 		case 10:
 		{
-			double a=1, b=2, c=3, d=4;
-			Swap(a, b);
-			Swap(c, d);
-			Swap(b, c);
+			int a=1, b=2, c=3, d=4;
+			swap(a, b);
+			swap(c, d);
+			swap(b, c);
 
 			cout << a << endl;
 			cout << b << endl;
@@ -285,27 +364,67 @@ int main()
 		break;
 		case 12:
 		{
+			int a[6] = { 1, 2, 3, 4, 5, 6 };
+			double b[3] = { 1.5, 2.5, 3.5 };
+			char c[4] = { 'A', 'B', 'C', 'D' };
 
+			reverse(a, 6);
+			reverse(b, 3);
+			reverse(c, 4);
+
+			for (int i = 0; i < 6; i++)
+			{
+				cout << a[i] << " ";
+			}
+			cout << endl;
+
+			for (int i = 0; i < 3; i++)
+			{
+				cout << b[i] << " ";
+			}
+			cout << endl;
+
+			for (int i = 0; i < 4; i++)
+			{
+				cout << c[i] << " ";
+			}
+			cout << endl;
 		}
 		break;
 		case 13:
 		{
+			int x = 3, y = 4, z = 5;
 
+			delitel(x, y, z);
 		}
 		break;
-		case 14:
+		case 14:// теория
 		{
+			char str[10]; //10 элементов = 9 видимых символов,
+			// т.к. последняя ячейка уходит на спец разделитель, означающтй конец строки
+			cin >> str; // в случае со строками компилятор понимает ввод массива символов как одно целое, можно без цикла
 
+			cout << str << endl;
+			cout << str[0] << endl;
+
+			cout << strlen(str) << endl;
 		}
 		break;
-		case 15:
+		case 15: // skobki
 		{
+			char str[10];
+			cin >> str;
+
+			cout << skobki(str) << endl;
 
 		}
 		break;
 		case 16:
 		{
+			char str[10];
+			cin >> str;
 
+			cout << skobki2(str) << endl;
 		}
 		break;
 		default:
